@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Slider = () => {
-    const [current, setCurrent] = useState(1);
+    const [current, setCurrent] = useState(0);
 
     // useEffect(() => {
     //     const interval = setInterval(() => {

@@ -13,13 +13,13 @@ const SinglePage = () => {
         <h1 className="text-4xl font-medium">Product name</h1>
         <p className="text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic quibusdam eius harum animi consequuntur quas id nisi fugit, laboriosam nulla beatae error ea sed repudiandae.</p>
         <div className="h-[2px] bg-gray-100" />
-        {/* <h2 className="font-medium text-2xl">${product.price?.price}</h2> */}
+        {/* <h2 className="font-medium text-2xl">₹{product.price?.price}</h2> */}
         <div className="flex items-center gap-4">
           <h3 className="text-xl text-gray-500 line-through">
-            $150
+            ₹150
           </h3>
           <h2 className="font-medium text-2xl">
-            $120
+            ₹120
           </h2>
         </div>
         <div className="h-[2px] bg-gray-100" />

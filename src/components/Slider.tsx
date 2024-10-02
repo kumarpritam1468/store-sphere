@@ -46,11 +46,11 @@ const Slider = () => {
         <section className=" h-[calc(100svh-80px)] overflow-hidden">
             <div
                 className="w-max h-full flex transition-all ease-in-out duration-1000"
-                style={{ transform: `translateX(-${current * 100}vw)` }}
+                style={{ transform: `translateX(-₹{current * 100}vw)` }}
             >
                 {slides.map((slide) => (
                     <div
-                        className={`${slide.bg} w-screen h-full flex flex-col gap-16 xl:flex-row`}
+                        className={`₹{slide.bg} w-screen h-full flex flex-col gap-16 xl:flex-row`}
                         key={slide.id}
                     >
                         <div className="h-1/2 xl:w-1/2 xl:h-full flex flex-col items-center justify-center gap-8 2xl:gap-12 text-center">
@@ -66,7 +66,7 @@ const Slider = () => {
                                 </button> */}
                                 <button className="inline-flex overflow-hidden text-white bg-gray-900 rounded group">
                                     <span className="px-3.5 py-3 text-white bg-main-red group-hover:bg-[#e04564] flex items-center justify-center">
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                                     </span>
                                     <span className="pl-4 pr-5 py-2.5">Shop Now</span>
                                 </button>
@@ -87,7 +87,7 @@ const Slider = () => {
             <div className="absolute m-auto left-1/2 bottom-8 flex gap-4">
                 {slides.map((slide, index) => (
                     <div
-                        className={`w-3 h-3  rounded-full ring-1 ring-gray-600 cursor-pointer flex items-center justify-center ${current === index ? "scale-150" : ""} transition-all duration-300 ease-in-out`}
+                        className={`w-3 h-3  rounded-full ring-1 ring-gray-600 cursor-pointer flex items-center justify-center ₹{current === index ? "scale-150" : ""} transition-all duration-300 ease-in-out`}
                         key={slide.id}
                         onClick={() => setCurrent(index)}
                     >

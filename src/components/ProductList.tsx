@@ -23,7 +23,7 @@ const ProductList = () => {
 
                 <div className="flex justify-between">
                     <span className="font-medium">Demo product</span>
-                    <span className="font-semibold">$180</span>
+                    <span className="font-semibold">₹180</span>
                 </div>
                 <div className=" text-sm text-gray-600" >Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, delectus ab. Odio, porro eum? Placeat possimus animi maxime necessitatibus id!</div>
                 <button className="CartBtn">
@@ -52,7 +52,7 @@ const ProductList = () => {
 
                 <div className="flex justify-between">
                     <span className="font-medium">Demo product</span>
-                    <span className="font-semibold">$180</span>
+                    <span className="font-semibold">₹180</span>
                 </div>
                 <div className=" text-sm text-gray-600" >Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, delectus ab. Odio, porro eum? Placeat possimus animi maxime necessitatibus id!</div>
                 <button className="CartBtn">
@@ -81,7 +81,7 @@ const ProductList = () => {
 
                 <div className="flex justify-between">
                     <span className="font-medium">Demo product</span>
-                    <span className="font-semibold">$180</span>
+                    <span className="font-semibold">₹180</span>
                 </div>
                 <div className=" text-sm text-gray-600" >Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, delectus ab. Odio, porro eum? Placeat possimus animi maxime necessitatibus id!</div>
                 <button className="CartBtn">
@@ -110,7 +110,7 @@ const ProductList = () => {
 
                 <div className="flex justify-between">
                     <span className="font-medium">Demo product</span>
-                    <span className="font-semibold">$180</span>
+                    <span className="font-semibold">₹180</span>
                 </div>
                 <div className=" text-sm text-gray-600" >Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, delectus ab. Odio, porro eum? Placeat possimus animi maxime necessitatibus id!</div>
                 <button className="CartBtn">

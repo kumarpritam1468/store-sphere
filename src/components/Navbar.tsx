@@ -16,7 +16,7 @@ const Navbar = () => {
             <div className=' hidden md:flex h-full w-full justify-between items-center'>
                 <div className=" w-1/3 xl:w-1/2 flex gap-4">
                     <Image src="/logomy.png" width={30} height={30} alt='logo' />
-                    <Link href="/" className=' text-2xl tracking-widest' >Store Sphere</Link>
+                    <Link href="/" className=' text-xl tracking-widest' >Store Sphere</Link>
 
                     <div className='hidden xl:flex items-center px-6 gap-4'>
                         <Link href='/'>Home</Link>

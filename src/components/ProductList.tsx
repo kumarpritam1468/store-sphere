@@ -16,7 +16,7 @@ const ProductList = async ({ categoryId, limit, searchParams }: { categoryId: st
         <div className=" mt-12 flex gap-y-16 gap-x-8 flex-wrap justify-between">
             {res?.items.map((product) => (
 
-                <Link href="/test" className=" w-full sm:w-[45%] lg:w-[22%] flex flex-col gap-4" key={product._id} >
+                <Link href={`/${product.slug}`} className=" w-full sm:w-[45%] lg:w-[22%] flex flex-col gap-4" key={product._id} >
                     <div className=" relative w-full h-80">
                         <Image
                             src={product.media?.mainMedia?.image?.url || "/demo.jpg"}

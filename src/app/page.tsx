@@ -1,15 +1,13 @@
 import CategoryList from "@/components/CategoryList"
 import ProductList from "@/components/ProductList"
 import Slider from "@/components/Slider"
-import { myWixClientServer } from "@/lib/wixClientServer"
+// import { myWixClientServer } from "@/lib/wixClientServer"s
 import { Suspense } from "react"
 import Loading from "./loading"
 
 const HomePage = async () => {
-  const myWixClient = await myWixClientServer();
-  const res = await myWixClient.products.queryProducts().find();
-
-  console.log(res);
+  // const myWixClient = await myWixClientServer();
+  // const res = await myWixClient.products.queryProducts().find();
 
   return (
     <div className=''>

@@ -12,7 +12,7 @@ const SearchBar = () => {
         const formData = new FormData(e.currentTarget);
         const name = formData.get("searchItem");
 
-        name && router.push(`list?product=₹{name}`);
+        name && router.push(`list?product=${name}`);
     }
 
     return (

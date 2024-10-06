@@ -41,7 +41,11 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
         )}
         <div className="h-[2px] bg-gray-100" />
 
-        <CustomizeProduct />
+        <CustomizeProduct
+          productId={product._id!}
+          variants={product.variants!}
+          options={product.productOptions!}
+        />
 
         <div className="h-[2px] bg-gray-100" />
         {product.additionalInfoSections?.map((section: any, idx: number) => (

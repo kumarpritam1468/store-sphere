@@ -32,7 +32,7 @@ const ListPage = async ({ searchParams }: { searchParams: any }) => {
 
       <Filter />
 
-      <h1 className=' font-semibold text-2xl mt-12'>Products for you</h1>
+      <h1 className=' font-semibold text-2xl mt-12'>{data.collection?.name} for you</h1>
 
       <Suspense fallback={<Loading />}>
         <ProductList categoryId={data.collection?._id || "00000000-000000-000000-000000000001"} limit={20} searchParams={searchParams} />

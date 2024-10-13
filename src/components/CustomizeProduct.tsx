@@ -74,7 +74,7 @@ const CustomizeProduct = ({ productId, variants, options }: { productId: string,
                                 </div>
                             ) : (
                                 <div
-                                    className="ring-1 ring-lama text-lama rounded-md py-1 px-4 text-sm"
+                                    className="ring-1 ring-main-red text-main-red rounded-md py-1 px-4 text-sm"
                                     style={{
                                         cursor: disabled ? "not-allowed" : "pointer",
                                         backgroundColor: selected

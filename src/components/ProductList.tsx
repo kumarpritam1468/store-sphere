@@ -2,6 +2,7 @@ import { myWixClientServer } from "@/lib/wixClientServer"
 // import { products } from "@wix/stores";
 import Image from "next/image"
 import Link from "next/link"
+import Pagination from "./Pagination";
 
 const ProductList = async ({ categoryId, limit, searchParams }: { categoryId: string, limit?: number, searchParams?: any }) => {
     const wixClient = await myWixClientServer();
@@ -15,7 +16,8 @@ const ProductList = async ({ categoryId, limit, searchParams }: { categoryId: st
         .gt("priceData.price", searchParams?.min || 0)
         .lt("priceData.price", searchParams?.max || 20000)
         .eq("collectionIds", categoryId)
-        .limit(limit || 8);
+        .limit(limit || 4)
+        .skip(searchParams?.page ? searchParams.page * (limit || 4) : 0);
 
     if (searchParams?.sort) {
         const [sortType, sortBy] = searchParams.sort.split(" ");
@@ -64,6 +66,7 @@ const ProductList = async ({ categoryId, limit, searchParams }: { categoryId: st
                     </button>
                 </Link>
             ))}
+            <Pagination currPage={res?.currentPage || 0} hasPrev={res?.hasPrev()!} hasNext={res?.hasNext()!} />
         </div>
     )
 }

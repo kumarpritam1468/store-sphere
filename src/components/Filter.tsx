@@ -7,9 +7,9 @@ const Filter = () => {
     const searchParams = useSearchParams();
     const { replace } = useRouter();
 
-    const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+    const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        const params = new URLSearchParams(searchParams);
+        const params = new URLSearchParams(searchParams.toString());
         params.set(name, value);
         console.log(params.toString());
         replace(`${pathname}?${params.toString()}`);

@@ -1,7 +1,10 @@
 "use client"
 
 import { useWixClient } from '@/hooks/useWixClient';
+import { LoginState } from '@wix/sdk';
 import React, { useState } from 'react'
+import Cookies from "js-cookie";
+import { useRouter } from 'next/navigation';
 
 enum MODE {
   LOGIN = "LOGIN",
@@ -27,8 +30,88 @@ const LoginPage = () => {
 
   const wixClient = useWixClient();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError("");
+    setIsLoading(true);
+
+    try {
+      let res;
+      switch (mode) {
+        case MODE.LOGIN: {
+          res = await wixClient.auth.login({
+            email,
+            password
+          });
+          break;
+        }
+        case MODE.REGISTER: {
+          res = await wixClient.auth.register({
+            profile: { nickname: username },
+            email,
+            password
+          });
+          break;
+        }
+        case MODE.RESET_PASSWORD: {
+          res = await wixClient.auth.sendPasswordResetEmail(
+            email,
+            window.location.href
+          );
+          break;
+        }
+        case MODE.VERIFY_EMAIL: {
+          res = await wixClient.auth.processVerification({
+            verificationCode: emailCode
+          });
+          break;
+        }
+        default:
+          break;
+      }
+
+      console.log(res);
+
+      switch (res?.loginState) {
+        case LoginState.SUCCESS: {
+          setMessage("Successful! You are being redirected.");
+          router.push("/");
+          const tokens = await wixClient.auth.getMemberTokensForDirectLogin(
+            res.data.sessionToken!
+          );
+
+          Cookies.set("refreshToken", JSON.stringify(tokens.refreshToken), {
+            expires: 2,
+          });
+          wixClient.auth.setTokens(tokens);
+          break;
+        }
+        case LoginState.FAILURE:
+          if (
+            res.errorCode === "invalidEmail" ||
+            res.errorCode === "invalidPassword"
+          ) {
+            setError("Invalid email or password!");
+          } else if (res.errorCode === "emailAlreadyExists") {
+            setError("Email already exists!");
+          } else if (res.errorCode === "resetPassword") {
+            setError("You need to reset your password!");
+          } else {
+            setError("Something went wrong!");
+          }
+        case LoginState.EMAIL_VERIFICATION_REQUIRED:
+          setMode(MODE.VERIFY_EMAIL);
+        case LoginState.OWNER_APPROVAL_REQUIRED:
+          setMessage("Your account is pending approval");
+        default: break;
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setError("Something went wrong");
+    }
   }
 
   return (
@@ -110,7 +193,7 @@ const LoginPage = () => {
             className="text-sm underline cursor-pointer"
             onClick={() => setMode(MODE.LOGIN)}
           >
-            Have and account?
+            Have an account?
           </div>
         )}
         {mode === MODE.RESET_PASSWORD && (

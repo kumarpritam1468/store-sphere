@@ -60,6 +60,7 @@ const LoginPage = () => {
             email,
             window.location.href
           );
+          setMessage("Password reset E-mail sent");
           break;
         }
         case MODE.VERIFY_EMAIL: {
@@ -101,10 +102,13 @@ const LoginPage = () => {
           } else {
             setError("Something went wrong!");
           }
+          break;
         case LoginState.EMAIL_VERIFICATION_REQUIRED:
           setMode(MODE.VERIFY_EMAIL);
+          break;
         case LoginState.OWNER_APPROVAL_REQUIRED:
           setMessage("Your account is pending approval");
+          break;
         default: break;
       }
       setIsLoading(false);

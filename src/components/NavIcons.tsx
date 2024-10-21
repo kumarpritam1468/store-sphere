@@ -5,13 +5,17 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import CartModal from "./CartModal"
+import { useWixClient } from "@/hooks/useWixClient"
 
 const NavIcons = () => {
     const router = useRouter();
     const [profileOpen, setProfileOpen] = useState(false);
     const [cartOpen, setCartOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const isLoggedIn = false;
+    const wixClient = useWixClient();
+
+    const isLoggedIn = wixClient.auth.loggedIn();
 
     const handleProfile = () => {
         if (!isLoggedIn) {
@@ -21,6 +25,14 @@ const NavIcons = () => {
         setProfileOpen(!profileOpen);
     }
 
+    const handleLogout = async () => {
+        setIsLoading(true);
+        const { logoutUrl } = await wixClient.auth.logout(window.location.href);
+        setProfileOpen(false);
+        setIsLoading(false);
+        router.push(logoutUrl);
+    }
+
     return (
         <div className=" flex items-center justify-center gap-4 xl:gap-6 px-4 relative">
             <Image src="/profile.png" height={24} width={24} alt="profile" className=" cursor-pointer" onClick={handleProfile} />
@@ -28,7 +40,9 @@ const NavIcons = () => {
             {profileOpen &&
                 <div className=" absolute flex gap-2 flex-col p-4 left-0 top-12 rounded-lg shadow-[0_3px_10px_rgba(0,0,0,0.2)] z-40">
                     <Link href="/profile">Profile</Link>
-                    <Link href="/logout">Log out</Link>
+                    <Link href="/logout" onClick={handleLogout} >
+                        {isLoading ? "Logging out..." : "Logout"}
+                    </Link>
                 </div>
             }
 

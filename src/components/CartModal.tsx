@@ -1,101 +1,71 @@
+import useCartStore from '@/hooks/useCartStore';
+import { useWixClient } from '@/hooks/useWixClient';
 import Image from 'next/image';
-import React from 'react'
+import React, { useEffect } from 'react'
+import {media as wixMedia} from "@wix/sdk";
 
 const CartModal = () => {
     const cartItems = true;
 
+    const wixClient = useWixClient();
+
+    const { cart, getCart } = useCartStore();
+
+    useEffect(() => {
+        getCart(wixClient);
+    }, [wixClient, getCart]);
+
     return (
         <div className=' absolute top-12 right-0 w-max p-4 flex flex-col bg-white shadow-[0_3px_10px_rgba(0,0,0,0.2)] rounded-md'>
-            {cartItems ? (
+            {cart?.lineItems ? (
                 <>
                     <h1 className=' text-3xl mb-8'>Cart</h1>
                     <div className=" flex flex-col gap-8">
-                        <div className=" flex gap-4">
-                            <Image src="/demo.jpg"
-                                width={72}
-                                height={96}
-                                alt="Product"
-                                className=' object-cover rounded-md'
-                            />
+                        {cart.lineItems.map((item, index) => (
+                            <div className=" flex gap-4" key={index}>
+                                {item.image && <Image src={wixMedia.getScaledToFillImageUrl(item.image,72,96,{})}
+                                    width={72}
+                                    height={96}
+                                    alt={item.productName?.original!}
+                                    className=' object-cover rounded-md'
+                                />}
 
-                            <div className="flex flex-col justify-between w-full">
-                                {/* TOP */}
-                                <div className="">
-                                    {/* TITLE */}
-                                    <div className="flex items-center justify-between gap-8">
-                                        <h3 className="font-semibold">
-                                            demo
-                                        </h3>
-                                        <div className="p-1 bg-gray-50 rounded-sm flex items-center gap-2">
-                                            {cartItems && 2 > 1 && (
-                                                <div className="text-xs text-green-500">
-                                                    2 x{" "}
-                                                </div>
-                                            )}
-                                            ₹50
+                                <div className="flex flex-col justify-between w-full">
+                                    {/* TOP */}
+                                    <div className="">
+                                        {/* TITLE */}
+                                        <div className="flex items-center justify-between gap-8">
+                                            <h3 className="font-semibold">
+                                                {item.productName?.original}
+                                            </h3>
+                                            <div className="p-1 bg-gray-50 rounded-sm flex items-center gap-2">
+                                                {item.quantity && (
+                                                    <div className="text-xs text-green-500">
+                                                        {item.quantity} x{" "}
+                                                    </div>
+                                                )}
+                                                ₹{item.price?.amount}
+                                            </div>
+                                        </div>
+                                        {/* DESC */}
+                                        <div className="text-sm text-gray-500">
+                                            available
                                         </div>
                                     </div>
-                                    {/* DESC */}
-                                    <div className="text-sm text-gray-500">
-                                        available
+                                    {/* BOTTOM */}
+                                    <div className="flex justify-between text-sm">
+                                        <span className="text-gray-500">Qty. {item.quantity}</span>
+                                        <span
+                                            className="text-blue-500 cursor-pointer"
+                                        // style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
+                                        // onClick={() => removeItem(wixClient, item._id!)}
+                                        >
+                                            Remove
+                                        </span>
                                     </div>
-                                </div>
-                                {/* BOTTOM */}
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-500">Qty. 2</span>
-                                    <span
-                                        className="text-blue-500 cursor-pointer"
-                                    // style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
-                                    // onClick={() => removeItem(wixClient, item._id!)}
-                                    >
-                                        Remove
-                                    </span>
                                 </div>
                             </div>
-                        </div>
-                        <div className=" flex gap-4">
-                            <Image src="/demo.jpg"
-                                width={72}
-                                height={96}
-                                alt="Product"
-                                className=' object-cover rounded-md'
-                            />
-
-                            <div className="flex flex-col justify-between w-full">
-                                {/* TOP */}
-                                <div className="">
-                                    {/* TITLE */}
-                                    <div className="flex items-center justify-between gap-8">
-                                        <h3 className="font-semibold">
-                                            demo
-                                        </h3>
-                                        <div className="p-1 bg-gray-50 rounded-sm flex items-center gap-2">
-                                            {cartItems && 2 > 1 && (
-                                                <div className="text-xs text-green-500">
-                                                    2 x{" "}
-                                                </div>
-                                            )}
-                                            ₹50
-                                        </div>
-                                    </div>
-                                    {/* DESC */}
-                                    <div className="text-sm text-gray-500">
-                                        available
-                                    </div>
-                                </div>
-                                {/* BOTTOM */}
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-500">Qty. 2</span>
-                                    <span
-                                        className="text-blue-500 cursor-pointer"
-                                    // style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
-                                    // onClick={() => removeItem(wixClient, item._id!)}
-                                    >
-                                        Remove
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+                        ))}
                         <div className="">
                             <div className="flex items-center justify-between font-semibold">
                                 <span className="">Subtotal</span>

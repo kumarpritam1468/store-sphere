@@ -11,7 +11,6 @@ const Filter = () => {
         const { name, value } = e.target;
         const params = new URLSearchParams(searchParams.toString());
         params.set(name, value);
-        console.log(params.toString());
         replace(`${pathname}?${params.toString()}`);
     }
 

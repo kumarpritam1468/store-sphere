@@ -1,5 +1,6 @@
 "use client"
 
+import useCartStore from "@/hooks/useCartStore";
 import { useWixClient } from "@/hooks/useWixClient";
 import { useState } from "react";
 
@@ -17,19 +18,10 @@ const AddProduct = ({ productId, variantId, stockNumber }: { productId: string, 
 
     const wixClient = useWixClient();
 
-    const addItem = async () => {
-        const response = await wixClient.currentCart.addToCurrentCart({
-            lineItems: [
-                {
-                    catalogReference: {
-                        appId: process.env.NEXT_PUBLIC_WIX_CART_APP_ID!,
-                        catalogItemId: productId,
-                        ...(variantId && { options: { variantId } })
-                    },
-                    quantity: quantity
-                }
-            ]
-        });
+    const {addItem:addProduct} = useCartStore();
+
+    const addItem = () => {
+        addProduct(wixClient, productId, variantId, quantity);
     }
     return (
         <div className="flex flex-col gap-4">

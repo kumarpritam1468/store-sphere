@@ -3,9 +3,10 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import CartModal from "./CartModal"
 import { useWixClient } from "@/hooks/useWixClient"
+import useCartStore from "@/hooks/useCartStore"
 
 const NavIcons = () => {
     const router = useRouter();
@@ -16,6 +17,12 @@ const NavIcons = () => {
     const wixClient = useWixClient();
 
     const isLoggedIn = wixClient.auth.loggedIn();
+
+    const { counter, getCart } = useCartStore();
+
+    useEffect(() => {
+        getCart(wixClient);
+    }, [wixClient, getCart]);
 
     const handleProfile = () => {
         if (!isLoggedIn) {
@@ -50,7 +57,9 @@ const NavIcons = () => {
 
             <div className=" relative cursor-pointer">
                 <Image src="/cart.png" height={24} width={24} alt="cart" onClick={() => setCartOpen(!cartOpen)} />
-                <div className=" absolute bg-main-red rounded-full size-5 -top-2 -right-2 text-sm flex items-center justify-center text-white">2</div>
+                <div className=" absolute bg-main-red rounded-full size-5 -top-2 -right-2 text-sm flex items-center justify-center text-white">
+                    {counter}
+                </div>
             </div>
 
             {cartOpen &&

@@ -1,9 +1,9 @@
-import { currentCart } from '@wix/ecom';
+// import { currentCart } from '@wix/ecom';
 import { create } from 'zustand'
 import { WixClient } from '../context/WixContext';
 
 type cartState = {
-    cart: currentCart.Cart;
+    cart: any;
     isLoading: boolean;
     counter: number;
     getCart: (wixClient: WixClient) => void;
@@ -27,8 +27,37 @@ const useCartStore = create<cartState>((set) => ({
             set((prev) => ({ ...prev, isLoading: false }));
         }
     },
-    addItem: async (wixClient) => { },
-    removeItem: async (wixClient) => { },
+    addItem: async (wixClient, variantId, productId, quantity) => {
+        set((prev) => ({ ...prev, isLoading: true }));
+        const response = await wixClient.currentCart.addToCurrentCart({
+            lineItems: [
+                {
+                    catalogReference: {
+                        appId: process.env.NEXT_PUBLIC_WIX_CART_APP_ID!,
+                        catalogItemId: productId,
+                        ...(variantId && { options: { variantId } })
+                    },
+                    quantity: quantity
+                }
+            ]
+        });
+
+        set({
+            cart: response.cart,
+            isLoading: false,
+            counter: response.cart?.lineItems.length
+        });
+    },
+    removeItem: async (wixClient, itemId) => {
+        set((prev) => ({ ...prev, isLoading: true }));
+        const response = await wixClient.currentCart.removeLineItemsFromCurrentCart([itemId]);
+
+        set({
+            cart: response.cart,
+            isLoading: false,
+            counter: response.cart?.lineItems.length
+        });
+    },
 }));
 
 export default useCartStore;

@@ -1,29 +1,23 @@
 import useCartStore from '@/hooks/useCartStore';
-import { useWixClient } from '@/hooks/useWixClient';
 import Image from 'next/image';
-import React, { useEffect } from 'react'
-import {media as wixMedia} from "@wix/sdk";
+import { media as wixMedia } from "@wix/sdk";
+import { useWixClient } from '@/hooks/useWixClient';
 
 const CartModal = () => {
-    const cartItems = true;
 
     const wixClient = useWixClient();
 
-    const { cart, getCart } = useCartStore();
-
-    useEffect(() => {
-        getCart(wixClient);
-    }, [wixClient, getCart]);
+    const { cart, isLoading, removeItem } = useCartStore();
 
     return (
-        <div className=' absolute top-12 right-0 w-max p-4 flex flex-col bg-white shadow-[0_3px_10px_rgba(0,0,0,0.2)] rounded-md'>
-            {cart?.lineItems ? (
+        <div className=' absolute top-12 right-0 w-max p-4 flex flex-col bg-white shadow-[0_3px_10px_rgba(0,0,0,0.2)] rounded-md z-[1000]'>
+            {isLoading ? "Loading..." : cart?.lineItems ? (
                 <>
                     <h1 className=' text-3xl mb-8'>Cart</h1>
                     <div className=" flex flex-col gap-8">
-                        {cart.lineItems.map((item, index) => (
+                        {cart.lineItems.map((item: any, index: number) => (
                             <div className=" flex gap-4" key={index}>
-                                {item.image && <Image src={wixMedia.getScaledToFillImageUrl(item.image,72,96,{})}
+                                {item.image && <Image src={wixMedia.getScaledToFillImageUrl(item.image, 72, 96, {})}
                                     width={72}
                                     height={96}
                                     alt={item.productName?.original!}
@@ -57,8 +51,8 @@ const CartModal = () => {
                                         <span className="text-gray-500">Qty. {item.quantity}</span>
                                         <span
                                             className="text-blue-500 cursor-pointer"
-                                        // style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
-                                        // onClick={() => removeItem(wixClient, item._id!)}
+                                            // style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
+                                            onClick={() => removeItem(wixClient, item._id!)}
                                         >
                                             Remove
                                         </span>
@@ -69,7 +63,7 @@ const CartModal = () => {
                         <div className="">
                             <div className="flex items-center justify-between font-semibold">
                                 <span className="">Subtotal</span>
-                                <span className="">₹50</span>
+                                <span className="">₹{cart?.subtotal?.amount}</span>
                             </div>
                             <p className="text-gray-500 text-sm mt-2 mb-4">
                                 Shipping and taxes calculated at checkout.
